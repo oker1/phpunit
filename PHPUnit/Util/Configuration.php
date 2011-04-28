@@ -135,6 +135,7 @@
  *     <log type="story-text" target="/tmp/story.txt"/>
  *     <log type="testdox-html" target="/tmp/testdox.html"/>
  *     <log type="testdox-text" target="/tmp/testdox.txt"/>
+ *     <log type="coverage-crap4j" target="/tmp/crap.xml"/>
  *   </logging>
  *
  *   <php>

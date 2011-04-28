@@ -263,6 +263,7 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
         }
 
         if ((isset($arguments['coverageClover']) ||
+             isset($arguments['coverageCrap4J']) ||
              isset($arguments['reportDirectory'])) &&
              extension_loaded('xdebug')) {
             $result->collectCodeCoverageInformation(TRUE);
@@ -323,6 +324,23 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
                 $writer = new PHP_CodeCoverage_Report_Clover;
                 $writer->process(
                   $result->getCodeCoverage(), $arguments['coverageClover']
+                );
+
+                $this->printer->write("\n");
+                unset($writer);
+            }
+
+            if (isset($arguments['coverageCrap4J'])) {
+                $this->printer->write(
+                  "\nWriting Crap4J report to XML file, this may take " .
+                  'a moment.'
+                );
+
+                require_once 'PHP/CodeCoverage/Report/Crap4j.php';
+
+                $writer = new PHP_CodeCoverage_Report_Crap4j;
+                $writer->process(
+                  $result->getCodeCoverage(), $arguments['coverageCrap4J']
                 );
 
                 $this->printer->write("\n");
@@ -624,6 +642,11 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
                 $arguments['coverageClover'] = $loggingConfiguration['coverage-clover'];
             }
 
+            if (isset($loggingConfiguration['coverage-crap4j']) &&
+                !isset($arguments['coverageCrap4J'])) {
+                $arguments['coverageCrap4J'] = $loggingConfiguration['coverage-crap4j'];
+            }
+
             if (isset($loggingConfiguration['json']) &&
                 !isset($arguments['jsonLogfile'])) {
                 $arguments['jsonLogfile'] = $loggingConfiguration['json'];
@@ -697,6 +720,7 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
             }
 
             if ((isset($arguments['coverageClover']) ||
+                isset($arguments['coverageCrap4J']) ||
                 isset($arguments['reportDirectory'])) &&
                 extension_loaded('xdebug')) {
                 $coverage = PHP_CodeCoverage::getInstance();
