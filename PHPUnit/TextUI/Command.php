@@ -82,6 +82,7 @@ class PHPUnit_TextUI_Command
       'configuration=' => NULL,
       'coverage-html=' => NULL,
       'coverage-clover=' => NULL,
+      'coverage-crap4j=' => NULL,
       'debug' => NULL,
       'exclude-group=' => NULL,
       'filter=' => NULL,
@@ -271,6 +272,24 @@ class PHPUnit_TextUI_Command
                     if (extension_loaded('tokenizer') &&
                         extension_loaded('xdebug')) {
                         $this->arguments['coverageClover'] = $option[1];
+                    } else {
+                        if (!extension_loaded('tokenizer')) {
+                            $this->showMessage(
+                              'The tokenizer extension is not loaded.'
+                            );
+                        } else {
+                            $this->showMessage(
+                              'The Xdebug extension is not loaded.'
+                            );
+                        }
+                    }
+                }
+                break;
+
+                case '--coverage-crap4j': {
+                    if (extension_loaded('tokenizer') &&
+                        extension_loaded('xdebug')) {
+                        $this->arguments['coverageCrap4J'] = $option[1];
                     } else {
                         if (!extension_loaded('tokenizer')) {
                             $this->showMessage(
@@ -830,6 +849,7 @@ Usage: phpunit [switches] UnitTest [UnitTest.php]
 
   --coverage-html <dir>     Generate code coverage report in HTML format.
   --coverage-clover <file>  Write code coverage data in Clover XML format.
+  --coverage-crap4j <file>  Write code coverage data in Crap4J XML format.
 
   --testdox-html <file>     Write agile documentation in HTML format to file.
   --testdox-text <file>     Write agile documentation in Text format to file.
