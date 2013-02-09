@@ -133,6 +133,7 @@
             charset="UTF-8" highlight="false"
  *          lowUpperBound="35" highLowerBound="70"/>
  *     <log type="coverage-clover" target="/tmp/clover.xml"/>
+ *     <log type="coverage-crap4j" target="/tmp/crap4j.xml"/>
  *     <log type="json" target="/tmp/logfile.json"/>
  *     <log type="plain" target="/tmp/logfile.txt"/>
  *     <log type="tap" target="/tmp/logfile.tap"/>

@@ -82,6 +82,7 @@ class PHPUnit_TextUI_Command
       'coverage-clover=' => NULL,
       'coverage-php=' => NULL,
       'coverage-text==' => NULL,
+      'coverage-crap4j==' => NULL,
       'debug' => NULL,
       'exclude-group=' => NULL,
       'filter=' => NULL,
@@ -266,6 +267,7 @@ class PHPUnit_TextUI_Command
                 break;
 
                 case '--coverage-clover':
+                case '--coverage-crap4j':
                 case '--coverage-html':
                 case '--coverage-php':
                 case '--coverage-text': {
@@ -288,6 +290,11 @@ class PHPUnit_TextUI_Command
                     switch ($option[0]) {
                         case '--coverage-clover': {
                             $this->arguments['coverageClover'] = $option[1];
+                        }
+                        break;
+
+                        case '--coverage-crap4j': {
+                            $this->arguments['coverageCrap4j'] = $option[1];
                         }
                         break;
 
@@ -632,7 +639,7 @@ class PHPUnit_TextUI_Command
 
             $logging = $configuration->getLoggingConfiguration();
 
-            if (isset($logging['coverage-html']) || isset($logging['coverage-clover']) || isset($logging['coverage-text']) ) {
+            if (isset($logging['coverage-html']) || isset($logging['coverage-clover']) || isset($logging['coverage-crap4j']) || isset($logging['coverage-text']) ) {
                 if (!extension_loaded('tokenizer')) {
                     $this->showExtensionNotLoadedMessage(
                       'tokenizer', 'No code coverage will be generated.'
@@ -839,6 +846,7 @@ Usage: phpunit [switches] UnitTest [UnitTest.php]
   --log-json <file>         Log test execution in JSON format.
 
   --coverage-clover <file>  Generate code coverage report in Clover XML format.
+  --coverage-crap4j <file>  Generate code coverage report in Crap4j XML format.
   --coverage-html <dir>     Generate code coverage report in HTML format.
   --coverage-php <file>     Serialize PHP_CodeCoverage object to file.
   --coverage-text=<file>    Generate code coverage report in text format.

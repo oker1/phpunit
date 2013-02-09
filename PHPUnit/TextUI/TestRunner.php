@@ -254,6 +254,10 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
                 $codeCoverageReports++;
             }
 
+            if (isset($arguments['coverageCrap4j'])) {
+                $codeCoverageReports++;
+            }
+
             if (isset($arguments['reportDirectory'])) {
                 $codeCoverageReports++;
             }
@@ -360,6 +364,18 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
 
                 $writer = new PHP_CodeCoverage_Report_Clover;
                 $writer->process($codeCoverage, $arguments['coverageClover']);
+
+                $this->printer->write(" done\n");
+                unset($writer);
+            }
+
+            if (isset($arguments['coverageCrap4j'])) {
+                $this->printer->write(
+                    "\nGenerating code coverage report in Crap4j XML format ..."
+                );
+
+                $writer = new PHP_CodeCoverage_Report_Crap4j;
+                $writer->process($codeCoverage, $arguments['coverageCrap4j']);
 
                 $this->printer->write(" done\n");
                 unset($writer);
@@ -669,6 +685,11 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
             if (isset($loggingConfiguration['coverage-clover']) &&
                 !isset($arguments['coverageClover'])) {
                 $arguments['coverageClover'] = $loggingConfiguration['coverage-clover'];
+            }
+
+            if (isset($loggingConfiguration['coverage-crap4j']) &&
+                !isset($arguments['coverageCrap4j'])) {
+                $arguments['coverageCrap4j'] = $loggingConfiguration['coverage-crap4j'];
             }
 
             if (isset($loggingConfiguration['coverage-php']) &&
